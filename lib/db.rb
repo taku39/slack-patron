@@ -34,3 +34,20 @@ def insert_message(message)
   rescue
   end
 end
+
+def update_message(message)
+  msg = message['message']
+  ts = msg.delete('ts')
+  begin
+    Messages.update_one({'ts' => ts}, {'$set' => msg})
+  rescue
+  end
+end
+
+def delete_message(message)
+  ts = message['deleted_ts']
+  begin
+    Messages.delete_one({'ts' => ts})
+  rescue
+  end
+end

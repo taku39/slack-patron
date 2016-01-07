@@ -33,7 +33,13 @@ class SlackLogger
 
     realtime.on :message do |m|
       puts m
-      insert_message(m)
+      if m['subtype'] == "message_changed"
+        update_message(m)
+      elsif m['subtype'] == "message_deleted"
+        delete_message(m)
+      else
+        insert_message(m)
+      end
     end
 
     realtime.on :team_join do |e|
